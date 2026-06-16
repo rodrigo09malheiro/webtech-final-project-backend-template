@@ -1,31 +1,17 @@
-const { Router } = require("express");
+// src/routes/index.js
+const express = require('express');
+const router = express.Router();
 
-const router = Router();
+const authRoutes = require('./auth.routes');
+const favoritesRoutes = require('./favorites.routes');
+const wishlistRoutes = require('./wishlist.routes');
+const reviewsRoutes = require('./reviews.routes');
+const profileRoutes = require('./profile.routes'); // <-- Descomentado
 
-/**
- * @swagger
- * /api:
- *   get:
- *     summary: API health check
- *     tags: [General]
- *     responses:
- *       200:
- *         description: API is running
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: API is running
- */
-router.get("/", (_req, res) => {
-  res.json({ message: "API is running" });
-});
-
-// TODO: import and register your feature routes here
-// const exampleRoutes = require("./example.routes");
-// router.use("/examples", exampleRoutes);
+router.use('/auth', authRoutes);
+router.use('/favorites', favoritesRoutes);
+router.use('/wishlist', wishlistRoutes);
+router.use('/reviews', reviewsRoutes);
+router.use('/profile', profileRoutes); // <-- Descomentado
 
 module.exports = router;
