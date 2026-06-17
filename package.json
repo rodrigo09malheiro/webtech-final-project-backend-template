@@ -1,6 +1,9 @@
 {
   "name": "webtech-final-project-backend-template",
   "version": "0.0.0",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "prepare": "git rev-parse --git-dir > /dev/null 2>&1 && git config core.hooksPath .githooks || true",
     "start": "node src/server.js",

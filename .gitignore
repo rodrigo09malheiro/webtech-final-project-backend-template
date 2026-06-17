@@ -3,3 +3,7 @@ node_modules/
 *.log
 grade-report*.html
 dist/
+uploads/
+database.sqlite
+node_modules/
+.env
