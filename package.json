@@ -6,6 +6,7 @@
   },
   "scripts": {
     "prepare": "git rev-parse --git-dir > /dev/null 2>&1 && git config core.hooksPath .githooks || true",
+    "postinstall": "npm rebuild sqlite3 --build-from-source",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "lint": "eslint src/",
