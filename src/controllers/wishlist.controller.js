@@ -5,10 +5,11 @@ const db = require('../models/database');
 exports.getWishlist = (req, res) => {
     const userId = req.user.id;
 
-    db.all('SELECT * FROM wishlist WHERE user_id = ?', [userId], (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.status(200).json(rows);
-    });
+    // wishlist.controller.js - getWishlist
+db.all('SELECT id, user_id, game_id as gameId, game_name as gameName, game_image as gameImage FROM wishlist WHERE user_id = ?', [userId], (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json(rows);
+});
 };
 
 // 2. Adicionar um jogo à wishlist

@@ -22,18 +22,28 @@ exports.getGameReviews = (req, res) => {
 
 // 2. Adicionar uma nova review a um jogo
 exports.addReview = (req, res) => {
-    const userId = req.user.id; // Vem do token JWT
-    const { gameId, rating, comment } = req.body;
+    const userId = req.user.id; 
+    // Aceitamos o gameName
+    const { gameId, gameName, rating, comment } = req.body; 
 
     if (!gameId || !rating) {
         return res.status(400).json({ message: 'O ID do jogo e a nota (rating) são obrigatórios.' });
     }
 
-    // Guardar a review na base de dados
-    const query = 'INSERT INTO reviews (user_id, game_id, rating, comment) VALUES (?, ?, ?, ?)';
+    // Guardamos o NOME do jogo também!
+    const query = 'INSERT INTO reviews (user_id, game_id, game_name, rating, comment) VALUES (?, ?, ?, ?, ?)';
     
-    db.run(query, [userId, gameId, rating, comment], function(err) {
+    db.run(query, [userId, gameId, gameName, rating, comment], function(err) {
         if (err) return res.status(500).json({ error: err.message });
         res.status(201).json({ message: 'Review adicionada com sucesso!', id: this.lastID });
+    });
+};
+// 3. Listar as reviews do utilizador logado (Para o Perfil)
+exports.getUserReviews = (req, res) => {
+    const userId = req.user.id; // Vem do token JWT
+    
+    db.all('SELECT * FROM reviews WHERE user_id = ? ORDER BY created_at DESC', [userId], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json(rows);
     });
 };

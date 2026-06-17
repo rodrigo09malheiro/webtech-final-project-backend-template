@@ -52,6 +52,8 @@ exports.login = (req, res) => {
         // Devolver token e dados do utilizador
         res.status(200).json({
             token,
+            username: user.username,     // <-- ADICIONADO PARA O FRONTEND FUNCIONAR
+            avatarUrl: user.avatar_url,  // <-- ADICIONADO PARA O FRONTEND FUNCIONAR
             user: { 
                 id: user.id, 
                 username: user.username, 
