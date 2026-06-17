@@ -3,13 +3,12 @@ const db = require('../models/database');
 
 // 1. Listar os favoritos do utilizador logado
 exports.getFavorites = (req, res) => {
-    const userId = req.user.id; // Vem do token JWT
+    const userId = req.user.id;
 
-   // favorites.controller.js - getFavorites
-db.all('SELECT id, user_id, game_id as gameId, game_name as gameName, game_image as gameImage FROM favorites WHERE user_id = ?', [userId], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.status(200).json(rows);
-});
+    db.all('SELECT id, user_id, game_id, game_name, game_image FROM favorites WHERE user_id = ?', [userId], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json(rows);
+    });
 };
 
 // 2. Adicionar um jogo aos favoritos
