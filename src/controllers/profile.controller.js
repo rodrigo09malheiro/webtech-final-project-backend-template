@@ -8,7 +8,7 @@ exports.getProfile = (req, res) => {
     db.get('SELECT id, username, email, avatar_url FROM users WHERE id = ?', [userId], (err, user) => {
         if (err) return res.status(500).json({ error: err.message });
         if (!user) return res.status(404).json({ message: 'Utilizador não encontrado.' });
-        
+
         res.status(200).json(user);
     });
 };
@@ -17,30 +17,32 @@ exports.getProfile = (req, res) => {
 exports.updateProfile = (req, res) => {
     const userId = req.user.id;
     const { username } = req.body;
-    let avatarUrl = req.body.avatarUrl; // Caso não haja upload, mantemos a lógica flexível
+    let avatarUrl = req.body.avatarUrl;
 
-    // Se o Multer apanhou um ficheiro no pedido, guardamos o caminho dele
     if (req.file) {
-        // Substituir barras invertidas (Windows) por normais para não quebrar a URL no frontend
-        avatarUrl = req.file.path.replace(/\\/g, '/');
+        avatarUrl = '/' + req.file.path.replace(/\\/g, '/');
     }
 
-    // Atualizar na base de dados (COALESCE garante que só atualiza se houver um valor novo)
     db.run(
         'UPDATE users SET username = COALESCE(?, username), avatar_url = COALESCE(?, avatar_url) WHERE id = ?',
         [username, avatarUrl, userId],
         function(err) {
             if (err) {
-                // Tratar o erro de tentar mudar para um username que já existe
                 if (err.message.includes('UNIQUE constraint failed: users.username')) {
                     return res.status(400).json({ message: 'Este username já está em uso por outra pessoa.' });
                 }
                 return res.status(500).json({ error: err.message });
             }
-            
-            res.status(200).json({ 
-                message: 'Perfil atualizado com sucesso!',
-                avatarUrl: avatarUrl
+
+            // Lê os valores finais da BD para garantir que a resposta está sempre certa
+            db.get('SELECT username, avatar_url FROM users WHERE id = ?', [userId], (err2, row) => {
+                if (err2) return res.status(500).json({ error: err2.message });
+
+                res.status(200).json({
+                    message: 'Perfil atualizado com sucesso!',
+                    username: row.username,
+                    avatarUrl: row.avatar_url
+                });
             });
         }
     );
