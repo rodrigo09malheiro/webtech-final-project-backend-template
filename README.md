@@ -103,4 +103,28 @@ src/
 
 ### Project Notes
 
-Add your project-specific notes here.
+**GameDex** — backend da aplicação de catálogo e gestão pessoal de jogos.
+
+**Funcionalidades implementadas**
+
+- Autenticação (registo/login) com JWT e passwords encriptadas com bcrypt
+- Gestão de perfil: atualização de username e upload de avatar
+- Favoritos: adicionar, remover e listar jogos favoritos do utilizador
+- Wishlist: adicionar, remover e listar jogos na wishlist
+- Reviews: criar review (rating + comentário) por jogo, e listar reviews do utilizador ou de um jogo específico
+- Todas as rotas protegidas usam o token JWT para identificar o utilizador (`req.user.id`)
+- Respostas relacionadas com jogos (favoritos, wishlist, reviews) devolvem os campos em camelCase (`gameId`, `gameName`, `gameImage`) para consistência com o frontend Angular
+
+**Base de dados**
+
+SQLite, com as tabelas `users`, `favorites`, `wishlist` e `reviews`.
+
+**Integração externa**
+
+A RAWG API é consumida no frontend (Angular) para listagem, pesquisa e detalhe de jogos. O backend apenas guarda as associações (IDs, nomes e imagens dos jogos) ligadas ao utilizador autenticado — não há dados mockados.
+
+**Variáveis de ambiente necessárias**
+
+Ver `.env.example`:
+- `PORT`
+- `JWT_SECRET`
