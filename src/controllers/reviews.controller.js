@@ -1,4 +1,13 @@
 // src/controllers/reviews.controller.js
+/**
+ * controllers/reviews.controller.js
+ * --------------------------------------------------------------------------
+ * Lógica das reviews (nota + comentário) que os utilizadores deixam nos
+ * jogos: obter as reviews de um jogo (público), criar uma nova review
+ * (protegido) e listar as reviews do próprio utilizador logado (para a
+ * página de Perfil).
+ * --------------------------------------------------------------------------
+ */
 const db = require('../models/database');
 
 // 1. Ir buscar todas as reviews de um jogo específico

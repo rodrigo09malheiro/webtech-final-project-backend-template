@@ -1,8 +1,17 @@
 // src/controllers/auth.controller.js
+/**
+ * controllers/auth.controller.js
+ * --------------------------------------------------------------------------
+ * Lógica de autenticação: registo de novos utilizadores (com password
+ * encriptada via bcrypt) e login (verifica a password e devolve um token
+ * JWT válido por 24h, juntamente com os dados básicos do utilizador).
+ * --------------------------------------------------------------------------
+ */
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../models/database');
 
+// Cria um novo utilizador na base de dados
 exports.register = (req, res) => {
     const { username, email, password } = req.body;
 
@@ -26,6 +35,7 @@ exports.register = (req, res) => {
     });
 };
 
+// Autentica um utilizador existente e devolve um token JWT
 exports.login = (req, res) => {
     const { email, password } = req.body;
 

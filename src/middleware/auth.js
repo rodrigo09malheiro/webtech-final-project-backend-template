@@ -1,4 +1,15 @@
 // src/middleware/auth.js
+/**
+ * middleware/auth.js
+ * --------------------------------------------------------------------------
+ * Middleware de autenticação por JWT.
+ * Verifica se o pedido traz um token válido no cabeçalho Authorization
+ * (formato "Bearer <token>"); se for válido, deixa o pedido avançar e
+ * disponibiliza os dados do utilizador em req.user; caso contrário,
+ * bloqueia o acesso com 401. É usado em todas as rotas privadas
+ * (favorites, wishlist, profile, reviews protegidas).
+ * --------------------------------------------------------------------------
+ */
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {

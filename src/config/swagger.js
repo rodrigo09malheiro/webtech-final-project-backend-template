@@ -1,3 +1,12 @@
+/**
+ * config/swagger.js
+ * --------------------------------------------------------------------------
+ * Configuração do Swagger/OpenAPI para esta API.
+ * Gera a especificação OpenAPI 3.0 a partir dos comentários JSDoc presentes
+ * nos ficheiros de rotas (src/routes/*.js) e exporta o objeto resultante,
+ * que é depois servido pelo swagger-ui-express em /api-docs (ver app.js).
+ * --------------------------------------------------------------------------
+ */
 const swaggerJsdoc = require("swagger-jsdoc");
 
 const options = {
@@ -15,6 +24,7 @@ const options = {
       },
     ],
   },
+  // Pasta onde o swagger-jsdoc vai procurar comentários @openapi/@swagger para gerar a doc
   apis: ["./src/routes/*.js"],
 };
 

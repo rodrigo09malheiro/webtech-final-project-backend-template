@@ -1,4 +1,13 @@
 // src/routes/profile.routes.js
+/**
+ * routes/profile.routes.js
+ * --------------------------------------------------------------------------
+ * Rotas de gestão do perfil do utilizador: ver dados e atualizar
+ * username/avatar. Usa o multer para receber o ficheiro de imagem (avatar)
+ * em multipart/form-data e guardá-lo na pasta "uploads/". Todas as rotas
+ * exigem autenticação.
+ * --------------------------------------------------------------------------
+ */
 const express = require('express');
 const router = express.Router();
 const profileController = require('../controllers/profile.controller');

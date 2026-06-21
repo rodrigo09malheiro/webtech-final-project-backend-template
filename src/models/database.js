@@ -1,4 +1,13 @@
 // src/models/database.js
+/**
+ * models/database.js
+ * --------------------------------------------------------------------------
+ * Configuração e inicialização da base de dados SQLite.
+ * Cria (se ainda não existirem) as 4 tabelas usadas pela aplicação:
+ * users, favorites, wishlist e reviews — e exporta a instância da base de
+ * dados (db) para ser usada diretamente pelos controllers (db.get/db.all/db.run).
+ * --------------------------------------------------------------------------
+ */
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
@@ -36,6 +45,7 @@ db.serialize(() => {
         FOREIGN KEY (user_id) REFERENCES users(id)
     )`);
 
+   // 4. Tabela de Reviews (nota + comentário que um utilizador deixa num jogo)
    db.run(`CREATE TABLE IF NOT EXISTS reviews (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,

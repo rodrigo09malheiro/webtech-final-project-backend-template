@@ -1,4 +1,12 @@
 // src/controllers/profile.controller.js
+/**
+ * controllers/profile.controller.js
+ * --------------------------------------------------------------------------
+ * Lógica do perfil do utilizador: obter os dados atuais e atualizar
+ * username e/ou avatar (a imagem chega via multer, já gravada em disco,
+ * e aqui só guardamos o caminho relativo na base de dados).
+ * --------------------------------------------------------------------------
+ */
 const db = require('../models/database');
 
 // 1. Obter os dados atuais do utilizador
@@ -19,10 +27,12 @@ exports.updateProfile = (req, res) => {
     const { username } = req.body;
     let avatarUrl = req.body.avatarUrl;
 
+    // Se vier um ficheiro novo (upload via multer), usa o caminho onde foi gravado
     if (req.file) {
         avatarUrl = '/' + req.file.path.replace(/\\/g, '/');
     }
 
+    // COALESCE mantém o valor antigo sempre que o novo vier null/undefined
     db.run(
         'UPDATE users SET username = COALESCE(?, username), avatar_url = COALESCE(?, avatar_url) WHERE id = ?',
         [username, avatarUrl, userId],
